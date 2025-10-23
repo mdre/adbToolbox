@@ -54,7 +54,7 @@ public class CurrentSequence extends SQLFunctionAbstract {
             
             result = sq.getInteger("sequenceValue");
         } catch(Exception e) {
-            System.out.println("Squence Exception!!! ");
+            System.out.println("Squence Exception!!! sequenceName "+sequenceName);
             e.printStackTrace();
             db.rollback();
         }
