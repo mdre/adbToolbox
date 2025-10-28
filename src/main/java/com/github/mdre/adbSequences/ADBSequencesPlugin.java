@@ -6,6 +6,7 @@ package com.github.mdre.adbSequences;
 import com.arcadedb.ContextConfiguration;
 import com.arcadedb.query.sql.SQLQueryEngine;
 import com.arcadedb.server.ArcadeDBServer;
+import com.arcadedb.server.ServerDatabase;
 import com.arcadedb.server.ServerPlugin;
 
 public class ADBSequencesPlugin implements ServerPlugin {
@@ -23,14 +24,33 @@ public class ADBSequencesPlugin implements ServerPlugin {
 
     @Override
     public void configure(ArcadeDBServer arcadeDBServer, ContextConfiguration configuration) {
-        System.out.println("\nPlugin configured");
-        arcadeDBServer.getDatabaseNames().forEach((db) -> {
-            final SQLQueryEngine sqlEngine = (SQLQueryEngine) arcadeDBServer.getDatabase(db).getQueryEngine("sql");
-            sqlEngine.getFunctionFactory().register("sequence", new Sequence());
-            sqlEngine.getFunctionFactory().register("createSequence", new CreateSequence());
-            sqlEngine.getFunctionFactory().register("currentSequence", new CurrentSequence());
+        System.out.println("\nConfiguring plugin...");
+        Sequence sq = new Sequence();
+        CreateSequence csq = new CreateSequence();
+        CurrentSequence currentSequence = new CurrentSequence();
+        CreateSequenceBind csb = new CreateSequenceBind();
+        arcadeDBServer.getDatabaseNames().forEach((dbName) -> {
+            final SQLQueryEngine sqlEngine = (SQLQueryEngine) arcadeDBServer.getDatabase(dbName).getQueryEngine("sql");
+            sqlEngine.getFunctionFactory().register("sequence", sq );
+            sqlEngine.getFunctionFactory().register("createSequence", csq);
+            sqlEngine.getFunctionFactory().register("currentSequence", currentSequence);
+            sqlEngine.getFunctionFactory().register("createSequenceBind", csb);
+            System.out.println("Functions added: sequence, createSequence, currentSequence, createSequenceBind.");
+            ServerDatabase db = arcadeDBServer.getDatabase(dbName);
+            // process all binds in each database. 
+            if (db.getSchema().existsType("___sequencesBinds")) {
+                System.out.println("Binds vertex detected.");
+                db.command("sql", "select distinct(sequenceType) from ___sequencesBinds")
+                  .stream()
+                  .forEach((sb) -> {
+                    System.out.println("...");
+                    System.out.println(db.getName() + " > "+sb.getProperty("sequenceType"));  
+                    csb.registerListener(db, sb.getProperty("sequenceType"));
+                });
+                System.out.println("bind process end.");
+            }
         });
-        // REGISTER 'sequence' FUNCTION WITH FIXED 2 PARAMETERS (MIN/MAX=2)
+        System.out.println("\nPlugin configured");
         
     }
 

@@ -5,6 +5,7 @@ An implementation of sequence function in ArcadeDB.
 * `createSequence(<name>, <initValue>)`: create a vertex that hold the sequences if not exist and register the  new sequence.
 * `sequence(<name>)`: return the current value and increment it.
 * `currentSequence(<name>)`: return the current value without increment it.
+* `createSequenceBind(<type name>,<property>,<sequenceName>): bind the Type property with the sequence.
 
 When the `createSequence()` funtion is called for the first time, the `___sequences` type is created if not exist in the current database. In that type will be holded all the sequences.
 
@@ -50,4 +51,14 @@ If you need to know what is the current next value without increment it use:
 ``` 
 select currentSequence("testSequence");
 ``` 
+
+Finally, To bind a sequence to a type property use:
+ 
+``` 
+select createSequenceBind("Serial","s1","testSequence");
+``` 
+This bind Serial.s1 with the testSquence and will be filled on create by the database.
+
+Multiple bind could point to the same sequence.
+
 
