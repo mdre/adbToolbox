@@ -16,7 +16,7 @@ import com.arcadedb.query.sql.function.SQLFunctionAbstract;
  */
 public class Sequence extends SQLFunctionAbstract {
     final String DEFAULTSEQUENCETYPENAME = "___sequences";
-    
+    int MAXRETRY = 10;
     /**
      * return the current free value and incremented it
      */
@@ -24,6 +24,11 @@ public class Sequence extends SQLFunctionAbstract {
         super("sequence");
     }
 
+    public Sequence(int maxretry) {
+        super("sequence");
+        MAXRETRY = maxretry;
+    }
+    
     @Override
     public Object execute(Object self, Identifiable currentRecord, Object currentResult, Object[] params, CommandContext context) {
         // check if the ___sequence vertex exists or create ir
@@ -46,22 +51,27 @@ public class Sequence extends SQLFunctionAbstract {
         else if (!(sequenceName instanceof String))
             throw new SequenceException("sequence name must be a String!");
         
-        try {
-            db.begin();
-            MutableVertex sq = db.lookupByKey(DEFAULTSEQUENCETYPENAME, "sequenceName", sequenceName)
-                                .next()
-                                .asVertex()
-                                .modify()
-                                ;
-            
-            result = sq.getInteger("sequenceValue");
-            sq.set("sequenceValue", result+1);
-            sq.save();
-            db.commit();
-        } catch(Exception e) {
-            System.out.println("Squence Exception!!! ");
-            e.printStackTrace();
-            db.rollback();
+        int retry = 0;
+        while(retry<MAXRETRY){
+            try {
+                db.begin();
+                MutableVertex sq = db.lookupByKey(DEFAULTSEQUENCETYPENAME, "sequenceName", sequenceName)
+                                    .next()
+                                    .asVertex()
+                                    .modify()
+                                    ;
+
+                result = sq.getInteger("sequenceValue");
+                sq.set("sequenceValue", result+1);
+                sq.save();
+                db.commit();
+                retry = 10;
+            } catch(Exception e) {
+                System.out.println("Squence Exception!!! ");
+                e.printStackTrace();
+                db.rollback();
+                retry++;
+            }
         }
         return result;
     }

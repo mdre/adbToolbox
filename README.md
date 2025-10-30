@@ -61,4 +61,17 @@ This bind Serial.s1 with the testSquence and will be filled on create by the dat
 
 Multiple bind could point to the same sequence.
 
+= Intalling the plugin
+To install the plugin, download it and copy in the `lib` folder of the ArcadeDB and must be passed as a parameter todo the start process.
+
+Example:
+
+```bash
+#!/bin/bash
+cd /opt/arcadedb
+export ARCADEDB_SETTINGS="-Darcadedb.server.plugins=ADBSequences:com.github.mdre.adbSequences.ADBSequencesPlugin"
+./bin/server.sh $1
+``` 
+
+
 
