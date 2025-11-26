@@ -16,7 +16,7 @@ plugins {
 }
 
 //OrientDB version to use:
-ext.arcadeDbVersion = '25.9.1'
+ext.arcadeDbVersion = '25.10.1'
 //ext.arcadeDbVersion = '25.9.1-SNAPSHOT'
 
  
@@ -30,9 +30,9 @@ idea{
 }
 
 
-def info() {
+task info {
     println "***************************************************************"
-    println " SYSTEM: " + name
+    println " SYSTEM: " + artifactId
     println "VERSION: " + version
     println "   JAVA: " + System.getProperty('java.home')
     println "***************************************************************"
@@ -258,7 +258,7 @@ publishing {
             pom {
                 name = "$artifactId"
                 description  = "$description"
-                url = 'https://github.com/mdre/adbSequences'
+                url = 'https://github.com/mdre/adbToolbox'
                 
                 // packaging = 'jar'
                 // optionally artifactId can be defined here 
@@ -268,9 +268,9 @@ publishing {
                 //     "prop.with.dots": "anotherValue"
                 // ]
                 scm {
-                    connection = 'scm:git:git://github.com/mdre/adbSequences.git'
-                    developerConnection = 'scm:git:ssh://github.com/mdre/adbSequences.git'
-                    url = 'https://github.com/mdre/adbSequences'
+                    connection = 'scm:git:git://github.com/mdre/adbToolbox.git'
+                    developerConnection = 'scm:git:ssh://github.com/mdre/adbToolbox.git'
+                    url = 'https://github.com/mdre/adbToolbox'
                 }
 
                 licenses {

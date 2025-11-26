@@ -1,11 +1,12 @@
-# ArcadeDB Sequence plugin
+# ADBToolbox plugin
 
-An implementation of sequence function in ArcadeDB. 
+ADBToolbox is a collection of custom functions to ArcadeDB.
 
 * `createSequence(<name>, <initValue>)`: create a vertex that hold the sequences if not exist and register the  new sequence.
 * `sequence(<name>)`: return the current value and increment it.
 * `currentSequence(<name>)`: return the current value without increment it.
-* `createSequenceBind(<type name>,<property>,<sequenceName>): bind the Type property with the sequence.
+* `createSequenceBind(<type name>,<property>,<sequenceName>)`: bind the Type property with the sequence.
+* `createAutoincrementBind(<type name>,<property>)`: create an autoincrement bind on the Type property when the record is updated.
 
 When the `createSequence()` funtion is called for the first time, the `___sequences` type is created if not exist in the current database. In that type will be holded all the sequences.
 
@@ -14,21 +15,21 @@ To register this plugin, just copy the jar to the lib directory in the ArcadeDB 
 ```bash
 #!/bin/bash
 cd /opt/arcadedb
-export ARCADEDB_SETTINGS="-Darcadedb.server.plugins=ADBSequences:com.github.mdre.adbSequences.ADBSequencesPlugin"
+export ARCADEDB_SETTINGS="-Darcadedb.server.plugins=ADBToolbox:com.github.mdre.adbToolbox.ADBToolboxPlugin"
 ./bin/server.sh $1
 ```
 
 And when you start the server you should see a line like this: 
 
 ```
-2025-10-23 08:34:03.387 INFO  [ArcadeDBServer] <ArcadeDB_0> Starting ArcadeDB Server in development mode with plugins [ADBSequences] ...
+2025-10-23 08:34:03.387 INFO  [ArcadeDBServer] <ArcadeDB_0> Starting ArcadeDB Server in development mode with plugins [ADBToolbox] ...
 ...
 ...
 Plugin configured
 
-ADBSequences plugin started
+ADBToolbox plugin started
 
-2025-10-23 08:36:19.037 INFO  [ArcadeDBServer] <ArcadeDB_0> - ADBSequences plugin started
+2025-10-23 08:36:19.037 INFO  [ArcadeDBServer] <ArcadeDB_0> - ADBToolbox plugin started
 
 ``` 
 
@@ -61,6 +62,14 @@ This bind Serial.s1 with the testSquence and will be filled on create by the dat
 
 Multiple bind could point to the same sequence.
 
+= Autoincrement
+Its also posible to create an autoincrement field. This field shoud be Long and will be incremented when the vertex is updated.
+``` 
+select createAutoincrementBind("");
+``` 
+
+
+
 = Intalling the plugin
 To install the plugin, download it and copy in the `lib` folder of the ArcadeDB and must be passed as a parameter todo the start process.
 
@@ -69,7 +78,7 @@ Example:
 ```bash
 #!/bin/bash
 cd /opt/arcadedb
-export ARCADEDB_SETTINGS="-Darcadedb.server.plugins=ADBSequences:com.github.mdre.adbSequences.ADBSequencesPlugin"
+export ARCADEDB_SETTINGS="-Darcadedb.server.plugins=ADBToolbox:com.github.mdre.adbToolbox.ADBToolboxPlugin"
 ./bin/server.sh $1
 ``` 
 

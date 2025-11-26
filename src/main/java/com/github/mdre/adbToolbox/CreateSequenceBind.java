@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.github.mdre.adbSequences;
+package com.github.mdre.adbToolbox;
 
 import com.arcadedb.database.Database;
 import com.arcadedb.database.DatabaseInternal;
