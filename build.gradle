@@ -16,7 +16,7 @@ plugins {
 }
 
 //OrientDB version to use:
-ext.arcadeDbVersion = '25.10.1'
+ext.arcadeDbVersion = '26.2.1'
 //ext.arcadeDbVersion = '25.9.1-SNAPSHOT'
 
  
@@ -310,7 +310,7 @@ if (!hasProperty('mainClass')) {
 
 task runFile(dependsOn: 'classes',type:JavaExec) {
     if (project.hasProperty('mainClass')) {
-        main = mainClass
+        mainClass.set(project.mainClass)
         classpath = sourceSets.main.runtimeClasspath
         standardOutput = System.out
         errorOutput = System.err
@@ -320,7 +320,7 @@ task runFile(dependsOn: 'classes',type:JavaExec) {
 
 task debug(dependsOn: 'classes',type:JavaExec) {
     if (project.hasProperty('mainClass')) {
-        main = mainClass
+        mainClass.set(project.mainClass)
         classpath = sourceSets.main.runtimeClasspath
         standardOutput = System.out
         errorOutput = System.err

@@ -8,9 +8,9 @@ import com.arcadedb.database.Database;
 import com.arcadedb.database.DatabaseInternal;
 import com.arcadedb.database.Identifiable;
 import com.arcadedb.event.BeforeRecordUpdateListener;
+import com.arcadedb.function.sql.SQLFunctionAbstract;
 import com.arcadedb.graph.MutableVertex;
 import com.arcadedb.query.sql.executor.CommandContext;
-import com.arcadedb.query.sql.function.SQLFunctionAbstract;
 import com.arcadedb.schema.DocumentType;
 import com.arcadedb.schema.Type;
 
