@@ -1,5 +1,5 @@
 #!/bin/bash
-LATEST="$(ls -t build/libs/ADBSequences-* | grep -vE '(-javadoc|-sources)\.jar$|.asc' | head -1)"
+LATEST="$(ls -t build/libs/ADBToolbox-* | grep -vE '(-javadoc|-sources)\.jar$|.asc' | head -1)"
 echo "instalando ${LATEST}..."
-cp ${LATEST} /opt/arcadedb/lib/ADBSequences.jar
+cp ${LATEST} /opt/arcadedb/lib/ADBToolbox.jar
 
