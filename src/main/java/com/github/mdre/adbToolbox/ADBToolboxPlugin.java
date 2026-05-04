@@ -9,8 +9,10 @@ import com.arcadedb.server.ArcadeDBServer;
 import com.arcadedb.server.ServerDatabase;
 import com.arcadedb.server.ServerPlugin;
 
-public class ADBToolboxPlugin implements ServerPlugin {
 
+public class ADBToolboxPlugin implements ServerPlugin {
+    // remember to add the txt file resources/META-INF/services/com.arcadedb.server.ServerPlugin with the class reference.
+    
     @Override
     public void startService() {
         System.out.println("\nADBToolbox plugin started");
